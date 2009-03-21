@@ -7,6 +7,6 @@
   $prev_context = get_context();
   set_context('random');	
 	echo display_tagcloud(1, $num_items, 'tags', 'object', '', page_owner());
-	get_context($prev_context);
+	set_context($prev_context);
 ?>
 </div>
