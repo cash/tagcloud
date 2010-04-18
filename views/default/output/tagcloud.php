@@ -84,9 +84,9 @@ if (!empty($vars['tagcloud']) && is_array($vars['tagcloud'])) {
 		// range from 75% to 300%
 		$size = floor(225 * $tag->total/$max + 75);
 
-		// colors
+		// colors - 4 to choose from - see css.php for color definitions
 		$class = "tagcloud";
-		if (true) {
+		if (get_plugin_setting('color','tagcloud') === 'yes') {
 			$color_class = ceil(($size - 75) / 60.0);
 			$class .= " tagcloud{$color_class}";
 		}

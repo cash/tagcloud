@@ -1,5 +1,7 @@
 /************* begin tag cloud ***************************/
 
+/* 1 is the least popular tag and 4 is the most */
+
 a.tagcloud {
 text-decoration: none;
 }
@@ -9,35 +11,35 @@ text-decoration: none;
 }
 
 a.tagcloud1 {
-color: red;
+color: #10568C;
 }
 
 a.tagcloud1:hover {
-color: red;
+color: #0A3556;
 }
 
 a.tagcloud2 {
-color: black;
+color: #7AA61B;
 }
 
 a.tagcloud2:hover {
-color: black;
+color: #658616;
 }
 
 a.tagcloud3 {
-color: green;
+color: #1B8EE7;
 }
 
 a.tagcloud3:hover {
-color: green;
+color: #136AAD;
 }
 
 a.tagcloud4 {
-color: brown;
+color: #93C8F1;
 }
 
 a.tagcloud4:hover {
-color: brown;
+color: #66B2EC;
 }
 
 /************** end tag cloud ****************************/
