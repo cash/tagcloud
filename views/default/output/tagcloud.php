@@ -12,7 +12,7 @@
  * @uses $vars['subtype'] Entity subtype
  * @uses $vars['owner_guid']
  * @uses $vars['container_guid']
- * @uses $vars['scale'] Scaling factor of tag font size - default is 100
+ * @uses $vars['scale'] Scaling factor of tag font size - default is 1
  * @uses $vars['sort'] Options: count, random(default), alpha,
  */
 
@@ -35,7 +35,7 @@ if (empty($vars['tagcloud']) && !empty($vars['value'])) {
 	$vars['tagcloud'] = $vars['value'];
 }
 
-$scale = 100;
+$scale = 1;
 if (isset($vars['scale'])) {
 	$scale = $vars['scale'];
 }
@@ -73,17 +73,30 @@ if (!empty($vars['tagcloud']) && is_array($vars['tagcloud'])) {
 			$cloud .= ", ";
 		}
 
+/* I think this is overdoing what a simple linear scaling can handle
 		// size is a percentage with the minimum percentage being 60%
-
 		// protecting against division by zero warnings
-		$size = round((log($tag->total) / log($max + .0001)) * $scale) + 30;
+		$size = round((log($tag->total) / log($max + .0001)) * 100 * $scale) + 30;
 		if ($size < 60) {
 			$size = 60;
 		}
+ */
+		// range from 75% to 300%
+		$size = floor(225 * $tag->total/$max + 75);
+
+		// colors
+		$class = "tagcloud";
+		if (true) {
+			$color_class = ceil(($size - 75) / 60.0);
+			$class .= " tagcloud{$color_class}";
+		}
+
+		$size = $scale * $size;
+
 		$encoded_tag = htmlspecialchars($tag->tag, ENT_QUOTES, 'UTF-8');
-		$style = "font-size: {$size}%; text-decoration: none;";
+		$style = "font-size: {$size}%;";
 		$url = $vars['url'] . "pg/search/?q=". urlencode($tag->tag) . "&search_type=tags{$params}";
-		$cloud .= "<a href='$url' title='$encoded_tag ($tag->total)' style='$style'>$encoded_tag</a>";
+		$cloud .= "<a href='$url' title='$encoded_tag ($tag->total)' class='$class' style='$style'>$encoded_tag</a>";
 	}
 
 	echo $cloud;

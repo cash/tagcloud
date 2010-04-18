@@ -41,18 +41,23 @@ if (is_plugin_enabled('tagcloud')) {
  * Display a tag cloud
  * 
  * @param int $num_tags Number of tags to display
- * @param int $guid Who's tags - 0 for all site tags
+ * @param int $owner_guid Who's tags - 0 for all site tags
+ * @param int $container_guid What group's tags - 0 to ignore this
  * @param string $sort Sort type: random, alpha, count (popularity)
  * @param int $scale How large should the tags be (default is 100)
  * @return string
  */
-function tagcloud_create_cloud($num_tags, $guid=0, $sort='random', $scale=100) {
+function tagcloud_create_cloud($num_tags, $owner_guid=0, $container_guid=0, $sort='random', $scale=1) {
 	
-	if ($guid == 0) {
-		$guid = ELGG_ENTITIES_ANY_VALUE;
+	if ($owner_guid == 0) {
+		$owner_guid = ELGG_ENTITIES_ANY_VALUE;
+	}
+	if ($container_guid == 0) {
+		$container_guid = ELGG_ENTITIES_ANY_VALUE;
 	}
 
-	$options = array('container_guids' => $guid, 
+	$options = array('owner_guids' => $owner_guid,
+					'container_guids' => $container_guid,
 					'limit' => $num_tags,
 					'threshold' => 0);
 	$tag_data = elgg_get_tags($options);
@@ -61,14 +66,24 @@ function tagcloud_create_cloud($num_tags, $guid=0, $sort='random', $scale=100) {
 						'sort' => $sort,
 						'scale' => $scale,
 					);
-	if ($guid) {
-		$view_vars['container_guid'] = $guid;
+	if ($owner_guid) {
+		$view_vars['owner_guid'] = $owner_guid;
+	}
+	if ($container_guid) {
+		$view_vars['container_guid'] = $container_guid;
 	}
 
 	return elgg_view("output/tagcloud", $view_vars);
 }
 
+
+/**
+ * init tag cloud plugin
+ */
 function tagcloud_init() {
+
+	elgg_extend_view('css','tagcloud/css');
+
 	add_widget_type('tagcloud', elgg_echo('tagcloud:widget:title'), elgg_echo('tagcloud:widget:description'));
 }
 
