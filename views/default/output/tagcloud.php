@@ -26,9 +26,8 @@ if (!empty($vars['type'])) {
 if (!empty($vars['owner_guid'])) {
 	$params .= "&owner_guid=" . $vars['owner_guid'];
 }
-// 1.7 does not support container_guid yet
 if (!empty($vars['container_guid'])) {
-	$params .= "&owner_guid=" . $vars['container_guid'];
+	$params .= "&container_guid=" . $vars['container_guid'];
 } 
 
 if (empty($vars['tagcloud']) && !empty($vars['value'])) {
